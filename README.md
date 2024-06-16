@@ -1,5 +1,6 @@
 Este tutorial fue hecho para campus party 2012 Bogota, estan libres de copiarlo y usarlo
 
+
 esta acompañado de slides si quieren:
 
 Verlas: http://bit.ly/gitCOP5
@@ -176,4 +177,154 @@ __git fetch <nombre remoto> <nombre rama>__
 
 Un fork no es un concepto de Git, es mas una conveniencia social, donde se hace el clone de un 
 repositorio bajo un nombre propio, como git genera una copia del repositorio a traves de un
+
 clone, podemos trabajarlo como un
+
+
+
+
+
+
+------------------------------------------------------------------------------------------
+in English 
+# GIT 101 - Basic Concepts
+
+## Init
+
+First, initialize the repository with __git init <repositoryName>__.
+You can also initialize an existing folder, e.g.:
+
+    $ cd repositoryName
+    repositoryName/$ git init
+
+## Config
+
+To view the current configurations, use __git config__.
+For example, the commit editor or the username:
+
+    $ cd repositoryName
+    repositoryName/$ git config -l
+
+-l lists all configurations
+
+    $ git config --global user.name "Your Name"
+    $ git config --global user.email "Your Email"
+    $ git config --global core.editor "Your Editor e.g. notepad"
+
+This is done to configure the installation/repository.
+
+## Add
+
+To add something to a commit, first create it and then add it with __git add__:
+
+    $ vim README.md
+    -- make some changes there --
+    $ git add README.md
+
+You can also use __git add -A__ to add all changes to a commit.
+*USE WITH CAUTION*
+
+## Commit
+
+To commit (commit to a change :P) after adding the changes to a commit,
+use __git commit__:
+
+    $ git commit
+
+**-m** can be used to send the commit message directly, e.g. __git commit -m "First Commit"__.
+*USE WITH CAUTION*
+
+## Status
+
+Allows you to see if there are files with changes that are pending commit/overwrite:
+
+    $ git status
+
+## Diff
+
+The __git diff__ command allows you to see in detail what changes are pending. With *--*, it shows the files as they are in the repository, and with *++*, it shows the files as they are currently.
+
+## Checkout
+
+With the __git checkout <fileName>__ command, you can replace your local changes with the changes in the repository. Additionally, it allows you to switch between branches (see below).
+
+## Log
+
+__git log__ shows the log of commits that have been made, including the message, the author, and the date.
+
+# rm / mv
+
+With __git rm__ or __git mv__, you can delete or move files or directories in the repository.
+
+# GIT 201 - Branches and Merges
+
+## branch
+
+A branch is a new path of the code that needs to be managed but is not ready to be included in the *master* branch of the repository (the master branch is the default branch in Git).
+
+Branches are used, for example, to manage new features.
+
+__git branch__ without arguments lists the available branches and marks the current one with an asterisk.
+__git branch -v__ lists the branches and shows the last commit in each one.
+__git branch <branchName>__ creates a branch to work on.
+__git checkout <branchName>__ switches the working branch to the selected branch.
+__git checkout master__ switches back to the main branch (trunk?).
+__git branch -D <branchName>__ deletes the branch.
+
+All commits made while working on a branch remain in that branch, and you can switch between branches without the changes in one branch affecting the others until you perform a merge (*see below*).
+
+## Merge
+
+After making changes in a branch and being sure of them, you need to perform a merge. There are different strategies for merging, e.g.,
+
+    branch->master
+    master->branch
+    branch->branch
+    (branch<->branch)->branch
+
+The __git merge__ command allows us to perform all these types of merges. However, we will only cover the most basic one here. After making changes in our branch:
+
+    $ git checkout master                # switch to master
+    $ git merge <branchName>             # merge the branch into master
+
+If there are conflicts, Git will show the files where conflicts occurred so they can be resolved manually.
+
+## Tag / Show
+
+When we are sure about a version of our code and want to mark it as safe/stable, we can create a tag with __git tag <tagName>__ to keep a snapshot of the repository at that moment. To list the tags, use __git tag -l__, and to see what a specific tag contains, use __git show <tagName>__.
+
+# GIT 301 - Sharing the Code
+
+## .gitignore
+
+Some files should not be tracked or stored in the repository, such as .class, .pyc, .py~, etc. For this, we create a .gitignore file that contains regular expressions specifying the files and types of files we do not want to track.
+
+## Clone
+
+A Git repository is ready to be shared from the very beginning. To make a copy of a repository, use __git clone <repoLocation>__.
+
+## SSH Keys
+
+Before sharing our code or collaborating with other repositories, we must authenticate ourselves securely. This is done by generating SSH keys:
+
+    $ ssh-keygen
+
+This generates a public key and a private key. You need to provide the public key to the person you want to trust your code (e.g., GitHub).
+
+## Remote
+
+To connect to a repository outside the one we have, we need to add a remote repository with the command __git remote add <remoteName> <repoLocation>__. To remove it, you can use __git remote rm <remoteName>__.
+## Push
+
+Once connected to a repository, we can push our changes to the remote repository using __git push <remoteName> <branchName>__. By default, Git attempts to push to the remote named "origin" and the "master" branch.
+
+## Pull and Fetch
+
+Just as we can push our changes to a remote repository, we can pull changes from a remote repository to our local repository, either to our working directory (pull) or to the copy of our repository (fetch) using the commands:
+
+__git pull <remoteName> <branchName>__
+__git fetch <remoteName> <branchName>__
+
+## Fork?
+
+A fork is not a Git concept but more of a social convention. It involves cloning a repository under your own name. Since Git creates a copy of the repository through a clone, we can work with it as our own repository.
